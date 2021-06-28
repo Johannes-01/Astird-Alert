@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "System tray icon for notifications": {
+      "commandName": "Project"
+    }
+  }
+}
