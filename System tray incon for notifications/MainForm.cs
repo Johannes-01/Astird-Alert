@@ -212,7 +212,7 @@ namespace System_tray_incon_for_notifications
 			{
 				if (ip.AddressFamily == AddressFamily.InterNetwork)
 				{
-					if (ip.ToString().StartsWith("192.168.60."))
+					if (ip.ToString().StartsWith("192.168.")) //192.168.60
 						return ip.ToString();
 				}
 			}
