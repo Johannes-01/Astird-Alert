@@ -97,8 +97,8 @@ namespace System_tray_incon_for_notifications
 			DialogResult result = MessageBox.Show("Wollen Sie die Applikation beenden?", "Menu", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			if (result == System.Windows.Forms.DialogResult.Yes)
 			{
-				notifyIcon.Visible = false;
-				Application.Exit();
+				notifyIcon.Visible = false;			
+				Environment.Exit(0);
 			}
 		}
 
