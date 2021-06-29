@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-namespace System_tray_incon_for_notifications
+namespace System_tray_icon_for_notifications
 {
     internal static class NativeMethods
     {
@@ -26,7 +26,6 @@ namespace System_tray_incon_for_notifications
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
-
         }
 
     }

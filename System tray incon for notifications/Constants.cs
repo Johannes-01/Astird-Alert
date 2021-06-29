@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace System_tray_incon_for_notifications
+namespace System_tray_icon_for_notifications
 {
     public static class Constants
     {

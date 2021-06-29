@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace System_tray_incon_for_notifications.Properties {
+namespace System_tray_icon_for_notifications.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace System_tray_incon_for_notifications
+namespace System_tray_icon_for_notifications
 {
 	public partial class MainForm : Form
 	{
@@ -19,6 +19,8 @@ namespace System_tray_incon_for_notifications
 		public NotifyIconForm frm2;
 		public bool formIsOpen;
 		private NetworkStream serverStream;
+		private TcpClient client;
+		private Thread worker;
    
 		public MainForm()
 		{
@@ -77,31 +79,6 @@ namespace System_tray_incon_for_notifications
 			}
 		}
 
-		private void NotifyIcon_Click(object sender, EventArgs e)
-		{
-			var eventArgs = e as MouseEventArgs;
-			switch (eventArgs.Button)
-			{
-				// Left click to reactivate
-				case MouseButtons.Left:
-					IsFormOpen();
-					break;
-				//case MouseButtons.Right:
-				//    break;
-			}
-		}
-
-
-		private void toolStripMenuItemExit_Click(object sender, EventArgs e)
-		{
-			DialogResult result = MessageBox.Show("Wollen Sie die Applikation beenden?", "Menu", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-			if (result == System.Windows.Forms.DialogResult.Yes)
-			{
-				notifyIcon.Visible = false;			
-				Environment.Exit(0);
-			}
-		}
-
 		private void astridNotifierSettings_Click(object sender, EventArgs e)
 		{
 			var frm = new SettingForms();
@@ -123,6 +100,36 @@ namespace System_tray_incon_for_notifications
 				}
 			}
 		}
+
+		private void NotifyIcon_Click(object sender, EventArgs e)
+		{
+			var eventArgs = e as MouseEventArgs;
+			switch (eventArgs.Button)
+			{
+				// Left click to reactivate
+				case MouseButtons.Left:
+					IsFormOpen();
+					break;
+				//case MouseButtons.Right:
+				//    break;
+			}
+		}
+
+
+		private void toolStripMenuItemExit_Click(object sender, EventArgs e)
+		{
+			DialogResult result = MessageBox.Show("Wollen Sie die Applikation beenden?", "Menu", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+			if (result == System.Windows.Forms.DialogResult.Yes)
+			{
+				notifyIcon.Visible = false;
+				client.Client.Shutdown(SocketShutdown.Send);
+				worker.Join();
+				serverStream.Close();
+				client.Close();
+				Environment.Exit(0);
+			}
+		}
+
 
 		private void astridNotifierToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -157,13 +164,13 @@ namespace System_tray_incon_for_notifications
 			{
 				IPAddress ip = IPAddress.Parse(Properties.Settings.Default["IP"].ToString());
 				int port = 5000;
-				TcpClient client = new TcpClient();
+				client = new TcpClient();
 				client.Connect(ip, port);
 				Console.WriteLine("client connected!!");
 				NetworkStream ns = client.GetStream();
-				Thread thread = new Thread(o => ReceiveData((TcpClient)o));
+				worker = new Thread(o => ReceiveData((TcpClient)o));
 
-				thread.Start(client);
+				worker.Start(client);
 				return ns;
 			}
 			catch
@@ -212,13 +219,18 @@ namespace System_tray_incon_for_notifications
 			{
 				if (ip.AddressFamily == AddressFamily.InterNetwork)
 				{
-					if (ip.ToString().StartsWith("192.168.")) //192.168.60
+					if (ip.ToString().StartsWith("192.168.32.")) //192.168.60
 						return ip.ToString();
 				}
 			}
 			throw new Exception("No network adapters with an IPv4 address in the system!");
 		}
 
-		#endregion
-	}
+        #endregion
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+			
+		}
+    }
 }

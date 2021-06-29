@@ -16,7 +16,7 @@ namespace Server
         {
             int count = 1;
 
-            TcpListener ServerSocket = new TcpListener(IPAddress.Parse("192.168.188.25"), 5000);
+            TcpListener ServerSocket = new TcpListener(IPAddress.Parse("192.168.32.1"), 5000); //Parse("192.168.32.1")
             ServerSocket.Start();
 
             while (true)
@@ -33,40 +33,48 @@ namespace Server
 
         public static void handle_clients(object o)
         {
-            try
+            int id = (int)o;
+            TcpClient client;
+
+            lock (_lock) client = list_clients[id];
+
+            while (true)
             {
-                int id = (int)o;
-                TcpClient client;
-
-                lock (_lock) client = list_clients[id];
-
-                while (true)
+                try
                 {
-                    NetworkStream stream = client.GetStream();
-                    byte[] buffer = new byte[1024];
-                    int byte_count = stream.Read(buffer, 0, buffer.Length);
-
-                    if (byte_count == 0)
+                    if (client.Connected)
                     {
-                        break;
+                        NetworkStream stream = client.GetStream();
+                    
+                        byte[] buffer = new byte[1024];
+                        int byte_count = stream.Read(buffer, 0, buffer.Length);
+
+                        if (byte_count == 0)
+                        {
+                            break;
+                        }
+
+                        string data = Encoding.UTF8.GetString(buffer, 0, byte_count);
+                        broadcast(data);
+                        Console.WriteLine(data);
                     }
-
-                    string data = Encoding.UTF8.GetString(buffer, 0, byte_count);
-                    broadcast(data);
-                    Console.WriteLine(data);
+                    else
+                    {
+                        list_clients.Remove(id);
+                    }
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
 
-                lock (_lock) list_clients.Remove(id);
-                client.Client.Shutdown(SocketShutdown.Both);
-                client.Close();
-            }
-            catch(Exception e)
-            {
-                //GetLocalIPAddress()
-                Console.WriteLine("Someone disconnected!");
-            }
-            
+            lock (_lock) list_clients.Remove(id);
+            client.Client.Shutdown(SocketShutdown.Both);
+            client.Close();
         }
+
+
 
         public static void broadcast(string data)
         {
@@ -82,22 +90,23 @@ namespace Server
                 }
             }
         }
-
-        #region HELPER
-        /*public static string GetLocalIPAddress()
-
-        {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    if (ip.ToString().StartsWith("192.168.")) //192.168.60
-                        return ip.ToString();
-                }
-            }
-            throw new Exception("No network adapters with an IPv4 address in the system!");
-        }*/
-        #endregion
     }
+
+    #region HELPER
+    /*public static string GetLocalIPAddress()
+
+    {
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                if (ip.ToString().StartsWith("192.168.")) //192.168.60
+                    return ip.ToString();
+            }
+        }
+        throw new Exception("No network adapters with an IPv4 address in the system!");
+    }*/
+    #endregion
+    
 }

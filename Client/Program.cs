@@ -13,7 +13,7 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            IPAddress ip = IPAddress.Parse("192.168.188.25");
+            IPAddress ip = IPAddress.Parse("192.168.32.1");
             int port = 5000;
             TcpClient client = new TcpClient();
             client.Connect(ip, port);

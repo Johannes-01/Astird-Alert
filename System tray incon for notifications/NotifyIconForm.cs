@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace System_tray_incon_for_notifications
+namespace System_tray_icon_for_notifications
 {
     public partial class NotifyIconForm : Form
     {
