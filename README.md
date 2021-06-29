@@ -13,7 +13,3 @@ In order to make the program work. You have to:
 6. Type in the ip address of the server to connect to it.
 
 
-Things to do:
-1. Wenn Astrid Notifier aktiviert wird Zeit der Notification anzeigen
-2. Settings nicht unedlich oft öffnen lassen
-
