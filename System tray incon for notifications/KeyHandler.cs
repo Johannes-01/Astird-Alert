@@ -4,7 +4,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
-namespace System_tray_icon_for_notifications
+namespace AstridAlert
 {
     public class KeyHandler
     {

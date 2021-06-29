@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace System_tray_icon_for_notifications
+namespace AstridAlert
 {
     public partial class NotifyIconForm : Form
     {

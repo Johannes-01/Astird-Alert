@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-namespace System_tray_icon_for_notifications
+namespace AstridAlert
 {
     internal static class NativeMethods
     {

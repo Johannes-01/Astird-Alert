@@ -1,5 +1,5 @@
 ﻿
-namespace System_tray_icon_for_notifications
+namespace AstridAlert
 {
     partial class MainForm
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace System_tray_icon_for_notifications
+namespace AstridAlert
 {
     public static class Constants
     {
