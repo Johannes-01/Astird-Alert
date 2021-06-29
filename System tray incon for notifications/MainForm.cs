@@ -17,7 +17,9 @@ namespace System_tray_icon_for_notifications
 	{
 		private KeyHandler ghk;
 		public NotifyIconForm frm2;
+		public SettingForms frm;
 		public bool formIsOpen;
+		public bool settingsFormIsOpen;
 		private NetworkStream serverStream;
 		private TcpClient client;
 		private Thread worker;
@@ -26,6 +28,7 @@ namespace System_tray_icon_for_notifications
 		{
 			InitializeComponent();
 			frm2 = new NotifyIconForm();
+			frm = new SettingForms();
 			formIsOpen = false;
 			ghk = new KeyHandler(Keys.F3, this);
 			ghk.Register();
@@ -37,6 +40,7 @@ namespace System_tray_icon_for_notifications
 				if (frm.ShowDialog() == DialogResult.OK)
 				{
 					serverStream = OpenClientConn();
+					settingsFormIsOpen = true;
 				}
 				else
 				{
@@ -81,23 +85,37 @@ namespace System_tray_icon_for_notifications
 
 		private void astridNotifierSettings_Click(object sender, EventArgs e)
 		{
-			var frm = new SettingForms();
-			if (frm.ShowDialog() == DialogResult.OK)
-			{
-				serverStream = OpenClientConn();
-
-				while (serverStream == null)
+            if (!settingsFormIsOpen)
+            {
+				settingsFormIsOpen = true;
+				var DialogResult = frm.ShowDialog();
+				if (DialogResult == DialogResult.OK)
 				{
-					var frm3 = new SettingForms();
-					if (frm3.ShowDialog() == DialogResult.OK)
+					serverStream = OpenClientConn();
+
+					while (serverStream == null)
 					{
-						serverStream = OpenClientConn();
-					}
-					else
-					{
-						Environment.Exit(0);
+						var frm3 = new SettingForms();
+						if (frm3.ShowDialog() == DialogResult.OK)
+						{
+							serverStream = OpenClientConn();
+						}
+						else
+						{
+							Environment.Exit(0);
+						}
 					}
 				}
+                else
+                {
+					settingsFormIsOpen = false;
+                }
+			
+			}
+            else
+            {
+				settingsFormIsOpen = false;
+				frm.Close();
 			}
 		}
 
@@ -228,9 +246,5 @@ namespace System_tray_icon_for_notifications
 
         #endregion
 
-        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-			
-		}
     }
 }
