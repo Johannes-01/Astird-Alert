@@ -45,7 +45,7 @@ namespace Server
                     if (client.Connected)
                     {
                         NetworkStream stream = client.GetStream();
-                    
+
                         byte[] buffer = new byte[1024];
                         int byte_count = stream.Read(buffer, 0, buffer.Length);
 
@@ -65,7 +65,7 @@ namespace Server
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(GetLocalIPAddress() + " disconnected. ");
                 }
             }
 
@@ -90,23 +90,25 @@ namespace Server
                 }
             }
         }
-    }
 
-    #region HELPER
-    /*public static string GetLocalIPAddress()
 
-    {
-        var host = Dns.GetHostEntry(Dns.GetHostName());
-        foreach (var ip in host.AddressList)
+        #region HELPER
+        public static string GetLocalIPAddress()
+
         {
-            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
             {
-                if (ip.ToString().StartsWith("192.168.")) //192.168.60
-                    return ip.ToString();
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    if (ip.ToString().StartsWith("192.168.")) //192.168.60
+                        return ip.ToString();
+                }
             }
+            throw new Exception("No network adapters with an IPv4 address in the system!");
         }
-        throw new Exception("No network adapters with an IPv4 address in the system!");
-    }*/
-    #endregion
+
+        #endregion
+    }
     
 }
