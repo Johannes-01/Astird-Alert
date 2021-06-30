@@ -30,6 +30,7 @@ namespace AstridAlert
 			frm2 = new NotifyIconForm();
 			frm = new SettingForms();
 			formIsOpen = false;
+			settingsFormIsOpen = false;
 			ghk = new KeyHandler(Keys.F3, this);
 			ghk.Register();
 			serverStream = OpenClientConn();
@@ -37,10 +38,11 @@ namespace AstridAlert
 			while(serverStream == null)
 			{
 				var frm = new SettingForms();
+				settingsFormIsOpen = true;
 				if (frm.ShowDialog() == DialogResult.OK)
 				{
 					serverStream = OpenClientConn();
-					settingsFormIsOpen = true;
+					settingsFormIsOpen = false;
 				}
 				else
 				{
@@ -88,8 +90,8 @@ namespace AstridAlert
             if (!settingsFormIsOpen)
             {
 				settingsFormIsOpen = true;
-				var DialogResult = frm.ShowDialog();
-				if (DialogResult == DialogResult.OK)
+				frm = new SettingForms();
+				if (frm.ShowDialog() == DialogResult.OK)
 				{
 					serverStream = OpenClientConn();
 
@@ -105,6 +107,7 @@ namespace AstridAlert
 							Environment.Exit(0);
 						}
 					}
+					settingsFormIsOpen = false;
 				}
                 else
                 {
