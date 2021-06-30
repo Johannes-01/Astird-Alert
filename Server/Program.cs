@@ -101,7 +101,7 @@ namespace Server
             {
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
-                    if (ip.ToString().StartsWith("192.168.60"))
+                    if (ip.ToString().StartsWith("192.168.188")) //You have to be more specific, you need to have tree numbers, not like in the MainForm.
                         return ip.ToString();
                 }
             }
