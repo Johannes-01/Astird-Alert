@@ -11,7 +11,7 @@ In order to make the program work. You have to:
 4. Then Start AstridNotifier and type in the ip address of the Server.
 
 
-With the Client you can test the connection to the Server and see your notifications send to other clients. 
+With the Client you can test the connection to the Server and see your notifications send to other clients. In the client file you have to be very specific with the ip.
 
 Feel free to change this code, for your purposes.
 
