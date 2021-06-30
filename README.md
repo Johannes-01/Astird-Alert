@@ -5,7 +5,7 @@ It also has a client and server application.
 If a client sends a message to the server, the server will forward a broadcast to all other clients, except the one who send the message in the first place.
 
 In order to make the program work. You have to:
-1. change the ip in the method GetLocalIPAddress(). The ip has to look similar to this 192.168.188 (IPv4, with tree numbers).
+1. change the ip in the method GetLocalIPAddress() of the Server file Program. The ip has to look similar to this 192.168.188 (IPv4, with tree numbers).
 2. You also have to change the ip address of the same method GetLocalIPAddress(), in the MainForm. Instead here the ip address can look like this 192.168. (only two numbers).
 3. Start the Server, before running the AstridNotifier. 
 4. Then Start AstridNotifier and type in the ip address of the Server.
