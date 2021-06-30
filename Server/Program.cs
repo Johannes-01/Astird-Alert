@@ -16,7 +16,7 @@ namespace Server
         {
             int count = 1;
 
-            TcpListener ServerSocket = new TcpListener(IPAddress.Parse("192.168.32.1"), 5000); //Parse("192.168.32.1")
+            TcpListener ServerSocket = new TcpListener(IPAddress.Parse(GetLocalIPAddress()), 5000); //Parse("192.168.32.1")
             ServerSocket.Start();
 
             while (true)

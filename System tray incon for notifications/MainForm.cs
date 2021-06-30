@@ -143,6 +143,7 @@ namespace AstridAlert
 			if (result == System.Windows.Forms.DialogResult.Yes)
 			{
 				notifyIcon.Visible = false;
+				//SendMessage(GetLocalIPAddress() + " disconnected.");
 				client.Client.Shutdown(SocketShutdown.Send);
 				worker.Join();
 				serverStream.Close();
