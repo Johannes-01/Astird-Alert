@@ -34,7 +34,7 @@ namespace AstridAlert
 					("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 			if (isChecked)
 			{
-				registryKey.SetValue("AstridAlert", System.Reflection.Assembly.GetExecutingAssembly().Location);
+				registryKey.SetValue("AstridAlert", Application.ExecutablePath);
 				Properties.Settings.Default.AutoStart = true;
 				Properties.Settings.Default.Save();
 			}
