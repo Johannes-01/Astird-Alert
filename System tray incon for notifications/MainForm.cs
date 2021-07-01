@@ -207,18 +207,25 @@ namespace AstridAlert
 			NetworkStream ns = client.GetStream();
 			byte[] receivedBytes = new byte[1024];
 			int byte_count;
-
-			while ((byte_count = ns.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
-			{
-				var message = Encoding.UTF8.GetString(receivedBytes, 0, byte_count);
-				if (!message.StartsWith(GetLocalIPAddress()))
+            try
+            {
+				while ((byte_count = ns.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
 				{
-					notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
-					notifyIcon.BalloonTipText = "Astrid ist da!";
-					notifyIcon.BalloonTipTitle = "Astrid Notifier";
-					notifyIcon.ShowBalloonTip(20000);                   
+					var message = Encoding.UTF8.GetString(receivedBytes, 0, byte_count);
+					if (!message.StartsWith(GetLocalIPAddress()))
+					{
+						notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
+						notifyIcon.BalloonTipText = "Astrid ist da!";
+						notifyIcon.BalloonTipTitle = "Astrid Notifier";
+						notifyIcon.ShowBalloonTip(20000);
+					}
 				}
 			}
+            catch
+            {
+				MessageBox.Show("Die Verbindung zum Server wurde getrennt. ", "No Server Connection", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Application.Exit();
+            }
 
 		}
 
