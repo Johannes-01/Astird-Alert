@@ -35,7 +35,7 @@ namespace AstridAlert
             this.btnSaveServerIP = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtServerIP = new System.Windows.Forms.TextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.AutostartBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnSaveServerIP
@@ -68,23 +68,24 @@ namespace AstridAlert
             this.txtServerIP.Size = new System.Drawing.Size(185, 27);
             this.txtServerIP.TabIndex = 2;
             // 
-            // checkBox1
+            // AutostartBox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(83, 62);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(92, 24);
-            this.checkBox1.TabIndex = 3;
-            this.checkBox1.Text = "Autostart";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.AutostartBox.AutoSize = true;
+            this.AutostartBox.Location = new System.Drawing.Point(83, 64);
+            this.AutostartBox.Name = "AutostartBox";
+            this.AutostartBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.AutostartBox.Size = new System.Drawing.Size(92, 24);
+            this.AutostartBox.TabIndex = 3;
+            this.AutostartBox.Text = "Autostart";
+            this.AutostartBox.UseVisualStyleBackColor = true;
+            this.AutostartBox.CheckedChanged += new System.EventHandler(this.AutostartBox_CheckedChanged);
             // 
             // SettingForms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(375, 100);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.AutostartBox);
             this.Controls.Add(this.txtServerIP);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSaveServerIP);
@@ -103,6 +104,6 @@ namespace AstridAlert
         private System.Windows.Forms.Button btnSaveServerIP;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox txtServerIP;
-        private CheckBox checkBox1;
+        private CheckBox AutostartBox;
     }
 }

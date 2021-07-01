@@ -15,7 +15,7 @@ namespace AstridAlert
 		{
 			InitializeComponent();
 			this.txtServerIP.Text = Properties.Settings.Default.IP;
-			this.checkBox1.Checked = Properties.Settings.Default.AutoStart;
+			this.AutostartBox.Checked = Properties.Settings.Default.AutoStart;
 			this.StartPosition = FormStartPosition.Manual;
 			this.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - this.Width, Screen.PrimaryScreen.WorkingArea.Height - this.Height);
 		}
@@ -49,6 +49,11 @@ namespace AstridAlert
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
 			RegisterInStartup(((CheckBox)sender).Checked);
+        }
+
+        private void AutostartBox_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
