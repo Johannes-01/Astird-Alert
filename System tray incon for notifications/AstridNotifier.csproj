@@ -6,6 +6,8 @@
     <RootNamespace>System_tray_incon_for_notifications</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <ApplicationIcon>D_Marke.ico</ApplicationIcon>
+    <Win32Resource />
   </PropertyGroup>
 
   <ItemGroup>
