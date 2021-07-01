@@ -240,7 +240,7 @@ namespace AstridAlert
 			{
 				if (ip.AddressFamily == AddressFamily.InterNetwork)
 				{
-					if (ip.ToString().StartsWith("192.168.32.")) //192.168. //Here it is ok, if there are only two places after the dot.
+					if (ip.ToString().StartsWith("192.168.32.")) 
 						return ip.ToString();
 				}
 			}
