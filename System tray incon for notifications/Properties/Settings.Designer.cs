@@ -25,13 +25,28 @@ namespace AstridAlert.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("192.168.60.36")]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.60.24")]
         public string IP {
             get {
                 return ((string)(this["IP"]));
             }
             set {
                 this["IP"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("false")]
+        public bool AutoStart
+        {
+            get
+            {
+                return ((bool)(this["AutoStart"]));
+            }
+            set
+            {
+                this["AutoStart"] = value;
             }
         }
     }

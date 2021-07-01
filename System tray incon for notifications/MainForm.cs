@@ -143,7 +143,6 @@ namespace AstridAlert
 			if (result == System.Windows.Forms.DialogResult.Yes)
 			{
 				notifyIcon.Visible = false;
-				//SendMessage(GetLocalIPAddress() + " disconnected.");
 				client.Client.Shutdown(SocketShutdown.Send);
 				worker.Join();
 				serverStream.Close();
@@ -241,7 +240,7 @@ namespace AstridAlert
 			{
 				if (ip.AddressFamily == AddressFamily.InterNetwork)
 				{
-					if (ip.ToString().StartsWith("192.168.32.")) //192.168.60
+					if (ip.ToString().StartsWith("192.168.32.")) //192.168. //Here it is ok, if there are only two places after the dot.
 						return ip.ToString();
 				}
 			}
