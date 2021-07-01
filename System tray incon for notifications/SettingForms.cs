@@ -3,7 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 
@@ -34,7 +37,7 @@ namespace AstridAlert
 					("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 			if (isChecked)
 			{
-				registryKey.SetValue("AstridAlert", Application.ExecutablePath);
+				registryKey.SetValue("AstridAlert", Process.GetCurrentProcess().MainModule.FileName);
 				Properties.Settings.Default.AutoStart = true;
 				Properties.Settings.Default.Save();
 			}
@@ -46,14 +49,10 @@ namespace AstridAlert
 			}
 		}
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-			RegisterInStartup(((CheckBox)sender).Checked);
-        }
 
         private void AutostartBox_CheckedChanged(object sender, EventArgs e)
         {
-
-        }
-    }
+			RegisterInStartup(((CheckBox)sender).Checked);
+		}
+	}
 }
