@@ -94,6 +94,7 @@ namespace AstridAlert
             {
 				settingsFormIsOpen = true;
 				frm = new SettingForms();
+				frm2.TopMost = false;
 				BringToFront();
 				if (frm.ShowDialog() == DialogResult.OK)
 				{
