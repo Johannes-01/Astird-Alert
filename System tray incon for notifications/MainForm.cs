@@ -28,7 +28,9 @@ namespace AstridAlert
 		{
 			InitializeComponent();
 			frm2 = new NotifyIconForm();
+			frm2.TopMost = true;
 			frm = new SettingForms();
+			frm.TopMost = true;
 			formIsOpen = false;
 			settingsFormIsOpen = false;
 			ghk = new KeyHandler(Keys.F3, this);
@@ -66,6 +68,7 @@ namespace AstridAlert
 				formIsOpen = true;
 				frm2.FormProgress();
 				var dialogResult = frm2.ShowDialog();
+				BringToFront();
 				if (dialogResult == DialogResult.OK)
 				{
 					SendMessage(GetLocalIPAddress()+":Astrid ist da!");
@@ -91,6 +94,7 @@ namespace AstridAlert
             {
 				settingsFormIsOpen = true;
 				frm = new SettingForms();
+				BringToFront();
 				if (frm.ShowDialog() == DialogResult.OK)
 				{
 					serverStream = OpenClientConn();
