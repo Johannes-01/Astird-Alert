@@ -23,7 +23,7 @@ namespace Server
             {
                 TcpClient client = ServerSocket.AcceptTcpClient();
                 lock (_lock) list_clients.Add(count, client);
-                Console.WriteLine("Someone connected!!");
+                Console.WriteLine(GetLocalIPAddress()+" connected!");
 
                 Thread t = new Thread(handle_clients);
                 t.Start(count);
@@ -65,7 +65,7 @@ namespace Server
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(GetLocalIPAddress() + " disconnected. ");
+                    Console.WriteLine(GetLocalIPAddress() + " disconnected!");
                 }
             }
 

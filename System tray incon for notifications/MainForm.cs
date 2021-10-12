@@ -148,6 +148,7 @@ namespace AstridAlert
 			if (result == System.Windows.Forms.DialogResult.Yes)
 			{
 				notifyIcon.Visible = false;
+				SendMessage(GetLocalIPAddress() + " disconnected!");
 				client.Client.Shutdown(SocketShutdown.Send);
 				worker.Join();
 				serverStream.Close();
@@ -164,14 +165,14 @@ namespace AstridAlert
 
 		private void shiftF3ToActivateToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			SendMessage(GetLocalIPAddress() + ":Astrid ist da!");
+			SendMessage(GetLocalIPAddress() + " Astrid ist da!");
 		}
 
 		#region HOTKEY
 
 		private void HandleHotkey()
 		{
-			SendMessage(GetLocalIPAddress() + ":Astrid ist da!");
+			SendMessage(GetLocalIPAddress() + " Astrid ist da!");
 		}
 
 		protected override void WndProc(ref Message m)
