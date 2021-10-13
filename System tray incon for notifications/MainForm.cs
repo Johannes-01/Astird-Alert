@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -98,9 +99,21 @@ namespace AstridAlert
 				BringToFront();
 				if (frm.ShowDialog() == DialogResult.OK)
 				{
-					serverStream = OpenClientConn();
+                    string oldIP = CreateIPEndPoint(client.Client.RemoteEndPoint);
 
-					while (serverStream == null)
+                    if (oldIP == Properties.Settings.Default.IP)
+                    {
+						MessageBox.Show("Die Verbindung besteht bereits.", "Server connection successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+						settingsFormIsOpen = false;
+
+					}
+                    else
+                    {
+						//worker.Abort();
+						serverStream = OpenClientConn();
+					}
+
+                while (serverStream == null)
 					{
 						var frm3 = new SettingForms();
 						if (frm3.ShowDialog() == DialogResult.OK)
@@ -189,6 +202,7 @@ namespace AstridAlert
 		{
 			try
 			{
+				//MessageBox.Show(Properties.Settings.Default["IP"].ToString());
 				IPAddress ip = IPAddress.Parse(Properties.Settings.Default["IP"].ToString());
 				int port = 5000;
 				client = new TcpClient();
@@ -245,6 +259,21 @@ namespace AstridAlert
 
 		#region HELPERS
 
+		public string CreateIPEndPoint(EndPoint endPoint)
+		{
+			string stringEndpoint = ((IPEndPoint)endPoint).Address.ToString();
+			string[] ep = stringEndpoint.Split(':');
+
+			IPAddress ip;
+			if (!IPAddress.TryParse(ep.Last(), out ip))
+			{
+				//MessageBox.Show("Keine IpAdresse!");
+				throw new FormatException("Invalid ip-adress");
+
+
+			}
+			return ip.ToString();
+		}
 		public static string GetLocalIPAddress()
 
 		{

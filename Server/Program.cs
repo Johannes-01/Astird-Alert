@@ -11,6 +11,7 @@ namespace Server
     {
         static readonly object _lock = new object();
         static readonly Dictionary<int, TcpClient> list_clients = new Dictionary<int, TcpClient>();
+        static TcpListener ServerSocket;
 
         static void Main(string[] args)
         {
@@ -23,16 +24,17 @@ namespace Server
             {
                 TcpClient client = ServerSocket.AcceptTcpClient();
                 lock (_lock) list_clients.Add(count, client);
-                Console.WriteLine(GetLocalIPAddress()+" connected!");
+                Console.WriteLine(GetLocalIPAddress() + " connected!");
 
-                Thread t = new Thread(handle_clients);
+                Thread t = new Thread(HandleClient);
                 t.Start(count);
                 count++;
             }
         }
 
-        public static void handle_clients(object o)
+        public static void HandleClient(object o)
         {
+
             int id = (int)o;
             TcpClient client;
 
@@ -51,6 +53,7 @@ namespace Server
 
                         if (byte_count == 0)
                         {
+                            client.Client.Close();
                             break;
                         }
 
@@ -61,19 +64,21 @@ namespace Server
                     else
                     {
                         list_clients.Remove(id);
+                        client.Close();
+                        break;
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(GetLocalIPAddress() + " disconnected!");
+                    break;
                 }
             }
 
             lock (_lock) list_clients.Remove(id);
-            client.Client.Shutdown(SocketShutdown.Both);
+            //client.Client.Shutdown(SocketShutdown.Both);
             client.Close();
         }
-
 
 
         public static void broadcast(string data)
@@ -110,5 +115,5 @@ namespace Server
 
         #endregion
     }
-    
+
 }
