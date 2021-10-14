@@ -91,7 +91,13 @@ namespace AstridAlert
 
 		private void astridNotifierSettings_Click(object sender, EventArgs e)
 		{
-            if (!settingsFormIsOpen)
+            if (formIsOpen)
+            {
+				formIsOpen = false;
+				frm2.Close();
+			}
+
+			if (!settingsFormIsOpen)
             {
 				settingsFormIsOpen = true;
 				frm = new SettingForms();

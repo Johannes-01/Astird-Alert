@@ -21,6 +21,7 @@ namespace AstridAlert
 			this.AutostartBox.Checked = Properties.Settings.Default.AutoStart;
 			this.StartPosition = FormStartPosition.Manual;
 			this.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - this.Width, Screen.PrimaryScreen.WorkingArea.Height - this.Height);
+			
 		}
 
 		private void SaveSettings_Click(object sender, EventArgs e)

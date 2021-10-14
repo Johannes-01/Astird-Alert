@@ -63,7 +63,7 @@ namespace AstridAlert
             this.toolStripSeparator2,
             this.toolStripMenuItemExit});
             this.notifyIconContextMenuStrip.Name = "notifyIconContextMenuStrip";
-            this.notifyIconContextMenuStrip.Size = new System.Drawing.Size(360, 136);
+            this.notifyIconContextMenuStrip.Size = new System.Drawing.Size(360, 164);
             // 
             // astridNotifierToolStripMenuItem
             // 
@@ -89,7 +89,7 @@ namespace AstridAlert
             // 
             this.toolStripMenuSettings.Name = "toolStripMenuSettings";
             this.toolStripMenuSettings.Size = new System.Drawing.Size(359, 30);
-            this.toolStripMenuSettings.Text = "Einstellungen";
+            this.toolStripMenuSettings.Text = "Settings";
             this.toolStripMenuSettings.Click += new System.EventHandler(this.astridNotifierSettings_Click);
             // 
             // toolStripSeparator2
