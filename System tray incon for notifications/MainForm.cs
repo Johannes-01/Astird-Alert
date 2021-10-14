@@ -23,7 +23,7 @@ namespace AstridAlert
 		public bool settingsFormIsOpen;
 		private NetworkStream serverStream;
 		private TcpClient client;
-		private Thread worker;
+		private Thread thread;
    
 		public MainForm()
 		{
@@ -102,7 +102,10 @@ namespace AstridAlert
 				settingsFormIsOpen = true;
 				frm = new SettingForms();
 				frm2.TopMost = false;
-				BringToFront();
+				Invoke((MethodInvoker)delegate () {
+					BringToFront();
+				});
+				
 				if (frm.ShowDialog() == DialogResult.OK)
 				{
                     string oldIP = CreateIPEndPoint(client.Client.RemoteEndPoint);
@@ -142,7 +145,9 @@ namespace AstridAlert
             else
             {
 				settingsFormIsOpen = false;
-				frm.Close();
+				Invoke((MethodInvoker)delegate () {
+					frm.Close();
+				});
 			}
 		}
 
@@ -169,7 +174,7 @@ namespace AstridAlert
 				notifyIcon.Visible = false;
 				SendMessage(GetLocalIPAddress() + " disconnected!");
 				client.Client.Shutdown(SocketShutdown.Send);
-				worker.Join();
+				thread.Join();
 				serverStream.Close();
 				client.Close();
 				Environment.Exit(0);
@@ -184,7 +189,9 @@ namespace AstridAlert
 
 		private void shiftF3ToActivateToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+
 			SendMessage(GetLocalIPAddress() + " Astrid ist da!");
+
 		}
 
 		#region HOTKEY
@@ -215,19 +222,72 @@ namespace AstridAlert
 				client.Connect(ip, port);
 				Console.WriteLine("client connected!!");
 				NetworkStream ns = client.GetStream();
-				worker = new Thread(o => ReceiveData((TcpClient)o));
+				thread = new Thread(o => ReceiveData((TcpClient)o));
 
-				worker.Start(client);
+				thread.Start(client);
 				return ns;
 			}
 			catch
 			{
-				MessageBox.Show("Verbindung zum Server nicht möglich! ", "No Server Connection", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Invoke((MethodInvoker)delegate () {
+					MessageBox.Show(this, "Verbindung zum Server nicht möglich! ", "No Server Connection", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				});
 				return null;
 			}
 			
 		}
 
+		private void openSettingsWhenConnectionLost()
+		{
+			if (formIsOpen)
+			{
+				formIsOpen = false;
+				Invoke((MethodInvoker)delegate () {
+					frm2.Close();
+				});
+			}
+
+			if (!settingsFormIsOpen)
+			{
+				settingsFormIsOpen = true;
+				frm = new SettingForms();
+				frm2.TopMost = false;
+				Invoke((MethodInvoker)delegate () {
+					BringToFront();
+				});
+				if (frm.ShowDialog() == DialogResult.OK)
+				{
+					serverStream = OpenClientConn();
+
+					while (serverStream == null)
+					{
+						var frm3 = new SettingForms();
+						if (frm3.ShowDialog() == DialogResult.OK)
+						{
+							serverStream = OpenClientConn();
+						}
+						else
+						{
+							Environment.Exit(0);
+						}
+					}
+					settingsFormIsOpen = false;
+				}
+				else
+				{
+					settingsFormIsOpen = false;
+					openSettingsWhenConnectionLost();
+				}
+
+			}
+			else
+			{
+				settingsFormIsOpen = false;
+				Invoke((MethodInvoker)delegate () {
+					frm.Close();
+				});
+			}
+		}
 		private void ReceiveData(TcpClient client)
 		{
 			NetworkStream ns = client.GetStream();
@@ -249,16 +309,26 @@ namespace AstridAlert
 			}
             catch
             {
-				MessageBox.Show("Die Verbindung zum Server wurde getrennt. ", "No Server Connection", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				Application.Exit();
-            }
+				Invoke((MethodInvoker)delegate () {
+					MessageBox.Show(this, "Die Verbindung zum Server wurde getrennt. ", "No Server Connection", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				});
+				openSettingsWhenConnectionLost();
+
+			}
 
 		}
 
 		private void SendMessage(string s)
 		{
-			byte[] buffer = Encoding.UTF8.GetBytes(s);
-			serverStream.Write(buffer, 0, buffer.Length);
+            try
+            {
+				byte[] buffer = Encoding.UTF8.GetBytes(s);
+				serverStream.Write(buffer, 0, buffer.Length);
+			}
+            catch
+            {
+				openSettingsWhenConnectionLost();
+            }
 		}
 
 		#endregion
